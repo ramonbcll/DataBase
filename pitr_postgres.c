@@ -8,9 +8,8 @@ int main() {
 	//while() {
 	printf("0 - Sair\n");
 	printf("1 - Arquivar logs\n");
-	printf("2 - Backup\n");
-	printf("3 - Restaurar.\n");
-	printf("4 - Dump\n");
+	printf("2 - Backup full\n");
+	printf("3 - Dump\n");
 
 	scanf("%d", &n);
 	//if(n == 0) break;
@@ -18,18 +17,10 @@ int main() {
 		system("psql -c 'select pg_switch_wal();'");
 	}
 	else if(n == 2) {
-		if(!system("find db_file_backup -type d -empty")) {
-			printf("O backup já foi criado anteriormente.\n");
-		}
-		else {
-			system("pg_basebackup -Ft -D /var/lib/postgresql/db_file_backup");
-		}
+		system("rm /var/lib/postgresql/db_file_backup/* -r");
+		system("pg_basebackup -Ft -D /var/lib/postgresql/db_file_backup");
 	}
 	else if(n == 3) {
-		system("tar xvf /var/lib/postgresql/db_file_backup/base.tar -C /var/lib/postgresql/11/main/");
-		system("tar xvf /var/lib/postgresql/db_file_backup/pg_wal.tar -C /var/lib/postgresql/11/main/pg_wal/");
-	}
-	else if(n == 4) {
 		system("pg_dumpall > db.out");
 	}
 
