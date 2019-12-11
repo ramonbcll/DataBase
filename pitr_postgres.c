@@ -29,3 +29,13 @@ int main() {
 
 	return 0;
 }
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+	system("sudo chmod -R 750 /var/lib/postgresql/");
+	system("sudo su - postgres");
+
+	return 0;
+}
